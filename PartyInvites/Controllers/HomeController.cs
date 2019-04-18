@@ -28,15 +28,28 @@ namespace PartyInvites.Controllers
                 Repository.AddResponse(guestResponse);
                 return View("Thanks", guestResponse);
             }
-            else {
+            else
+            {
                 //there is a validation error
                 return View();
             }
         }
 
-        public ViewResult ListResponses()
+        public int PageSize = 4;
+
+        public ViewResult ListResponses(int guestsPage = 1)
         {
-            return View(Repository.Responses.Where(r => r.WillAttend == true));
+            //return View(Repository.Responses.Where(r => r.WillAttend == true).Skip((guestsPage-1)*PageSize).Take(PageSize));
+            return View(new GuestsListViewModel
+            {
+                GuestResponses = Repository.Responses.Where(r => r.WillAttend == true).Skip((guestsPage - 1) * PageSize).Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = guestsPage,
+                    ItemsPerPage = PageSize,
+                    Totalitems = Repository.Responses.Count()
+                }
+            });
         }
     }
 }

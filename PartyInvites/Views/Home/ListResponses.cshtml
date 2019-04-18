@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PartyInvites.Models.GuestResponse>
+﻿@model GuestsListViewModel
 @{
     Layout = null;
 }
@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (PartyInvites.Models.GuestResponse r in Model)
+                @foreach (PartyInvites.Models.GuestResponse r in Model.GuestResponses)
                 {
                     <tr>
                         <td>@r.Name</td>
@@ -34,5 +34,6 @@
             </tbody>
         </table>
     </div>
+    <div page-model="@Model.PagingInfo" page-action="ListResponses"></div>
 </body>
 </html>

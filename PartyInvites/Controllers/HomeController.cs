@@ -7,6 +7,13 @@ namespace PartyInvites.Controllers
 {
     public class HomeController : Controller
     {
+        private IRepository Repository;
+
+        public HomeController(IRepository repository)
+        {
+            Repository = repository;
+        }
+
         public ViewResult Index()
         {
             int hour = DateTime.Now.Hour;

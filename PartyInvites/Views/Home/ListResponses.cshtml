@@ -18,17 +18,13 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (PartyInvites.Models.GuestResponse r in Model.GuestResponses)
                 {
                     <tr>
-                        <td>@r.Name</td>
-                        <td>@r.Email</td>
-                        <td>@r.Phone</td>
+                        <td>@Html.ActionLink(@r.Name, "ShowResponseDetails", new { id = r.ID })</td>
                     </tr>
                 }
             </tbody>

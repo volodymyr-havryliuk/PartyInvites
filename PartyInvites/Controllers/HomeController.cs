@@ -39,7 +39,6 @@ namespace PartyInvites.Controllers
 
         public ViewResult ListResponses(int guestsPage = 1)
         {
-            //return View(Repository.Responses.Where(r => r.WillAttend == true).Skip((guestsPage-1)*PageSize).Take(PageSize));
             return View(new GuestsListViewModel
             {
                 GuestResponses = Repository.Responses.Where(r => r.WillAttend == true).Skip((guestsPage - 1) * PageSize).Take(PageSize),
@@ -50,6 +49,11 @@ namespace PartyInvites.Controllers
                     Totalitems = Repository.Responses.Count()
                 }
             });
+        }
+
+        public ViewResult ShowResponseDetails(int id) {
+            GuestResponse guestResponse = Repository.Responses.Single(r => r.ID == id);
+            return View(guestResponse);
         }
     }
 }

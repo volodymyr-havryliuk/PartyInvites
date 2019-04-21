@@ -1,4 +1,4 @@
-﻿@model GuestsListViewModel
+﻿@model GuestResponse
 @{
     Layout = null;
 }
@@ -18,18 +18,18 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (PartyInvites.Models.GuestResponse r in Model.GuestResponses)
-                {
-                    <tr>
-                        <td>@Html.ActionLink(@r.Name, "ShowResponseDetails", new { id = r.ID })</td>
-                    </tr>
-                }
+                <tr>
+                    <td>@Model.Name</td>
+                    <td>@Model.Email</td>
+                    <td>@Model.Phone</td>
+                </tr>
             </tbody>
         </table>
     </div>
-    <div page-model="@Model.PagingInfo" page-action="ListResponses"></div>
 </body>
 </html>

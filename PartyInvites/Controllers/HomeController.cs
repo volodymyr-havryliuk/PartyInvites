@@ -2,11 +2,19 @@
 using System;
 using PartyInvites.Models;
 using System.Linq;
+using PartyInvites.Data;
 
 namespace PartyInvites.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly PartyInvitesContext _context;
+
+        public HomeController(PartyInvitesContext context)
+        {
+            _context = context;
+        }
+
         public ViewResult Index()
         {
             int hour = DateTime.Now.Hour;
@@ -25,12 +33,12 @@ namespace PartyInvites.Controllers
         {
             if (ModelState.IsValid)
             {
-                Repository.AddResponse(guestResponse);
+                _context.Add(guestResponse);
+                _context.SaveChanges();
                 return View("Thanks", guestResponse);
             }
             else
             {
-                //there is a validation error
                 return View();
             }
         }
@@ -39,17 +47,21 @@ namespace PartyInvites.Controllers
 
         public ViewResult ListResponses(int guestsPage = 1)
         {
-            //return View(Repository.Responses.Where(r => r.WillAttend == true).Skip((guestsPage-1)*PageSize).Take(PageSize));
             return View(new GuestsListViewModel
             {
-                GuestResponses = Repository.Responses.Where(r => r.WillAttend == true).Skip((guestsPage - 1) * PageSize).Take(PageSize),
+                GuestResponses = _context.GuestResponses.Where(r => r.WillAttend == true).Skip((guestsPage - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = guestsPage,
                     ItemsPerPage = PageSize,
-                    Totalitems = Repository.Responses.Count()
+                    Totalitems = _context.GuestResponses.Count()
                 }
             });
+        }
+
+        public ViewResult ShowResponseDetails(int id) {
+            GuestResponse guestResponse = _context.GuestResponses.Single(r => r.ID == id);
+            return View(guestResponse);
         }
     }
 }
